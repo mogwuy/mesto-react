@@ -1,0 +1,36 @@
+.profile__avatar {
+    width: 120px;
+    height: 120px;
+    margin-top: 7px;
+    position: relative;
+}
+
+@media screen and (max-width: 642px) {
+    .profile__avatar{
+        margin: 7px auto;
+    }
+  }
+
+
+  .profile__avatar::before {
+    background-color: #000000;
+    opacity: 0.3;
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    border-radius: 100px;
+    }
+
+.profile__avatar:hover::before  {
+  opacity: 0.8;
+}
+
+
+  .profile__avatar:hover .profile__avatar-edit {
+    visibility:visible
+
+    }
+    
