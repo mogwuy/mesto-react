@@ -1,7 +1,5 @@
 import React from 'react';
 import {api} from '../utils/Api.js';
-import Header from './Header.js';
-import Footer from './Footer.js';
 import Card from './Card.js';
 import addButton from '../images/add_button.svg';
 import profileEdit from '../images/profile_edit.svg';
@@ -19,27 +17,34 @@ api.getProfileData()
   setUserAvatar(usersData.avatar);
   setUserName(usersData.name);
   setUserDescription(usersData.about)
- 
-  });
+  })
+  .catch((err) => {
+    //Вывод ошибки
+    console.log(`Ошибка: ${err}`); 
+    });
  
   api.getInitialCards('cards')
   .then((cardsData) => {
      setCards(cardsData)
-    });
+    })
+    .catch((err) => {
+      //Вывод ошибки
+      console.log(`Ошибка: ${err}`); 
+      });
 }, [] );
 
 
 cards.reverse();
 
 const cardElements = cards.map((card) => {
-  return <Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelPlace={props.onDelPlace} onCardClick={props.onCardClick} />
+  return (<Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelPlace={props.onDelPlace} onCardClick={props.onCardClick} />)
 });
 
 
 
   return (
-        <main className="content">
-        <Header />
+        
+        <>
             <section className="profile">
               <div className="profile__avatar">
                 <div className="profile__avatar-image" style={{ backgroundImage: `url(${userAvatar})` }} /><button className="profile__avatar-edit" onClick={props.onEditAvatar}></button>
@@ -58,10 +63,9 @@ const cardElements = cards.map((card) => {
                 </button>
             </section>
             <section className="elements">
-{cardElements}
+            {cardElements}
             </section>
-        <Footer />
-       </main>
+        </>
    
  
    

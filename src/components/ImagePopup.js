@@ -1,7 +1,7 @@
 import React from 'react';
 import addButton from '../images/add_button.svg';
 function ImagePopup(props) {
-const isOpened = (typeof(props.card.link) === 'string') ? 'popup_opened' : " "
+const isOpened = (props.card.link.length > 1 ) ? 'popup_opened' : " "
     return (
     
         <section className={`popup ${isOpened}`} id="popup-image">

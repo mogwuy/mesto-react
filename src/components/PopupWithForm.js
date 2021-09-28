@@ -9,6 +9,7 @@ function PopupWithForm(props) {
             <h2 className="popup__title">{props.title}</h2>
             <form className="popup__container" name={props.name} >
             {props.children} 
+            <input type="submit" className="popup__submit" id="submit-edit-avatar" value={props.buttonText} />
             </form>
           </div>
         </div>
