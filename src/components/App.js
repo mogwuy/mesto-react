@@ -4,6 +4,7 @@ import Header from './Header.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
 import EditProfilePopup from './EditProfilePopup.js';
+import EditAvatarPopup from './EditAvatarPopup.js';
 import ImagePopup from './ImagePopup.js';
 import '../index.css';
 import {api} from '../utils/Api.js';
@@ -67,6 +68,11 @@ function handleDelPlaceClick() {
       closeAllPopups()
      }
 
+     function handleUpdateAvatar(data) {
+      api.updateAvatar(data)
+      setСurrentUser(data)
+      closeAllPopups()
+     }
 
 
   return (
@@ -78,11 +84,8 @@ function handleDelPlaceClick() {
 <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onDelPlace={handleDelPlaceClick}  onCardClick={handleCardClick} />
 <Footer />
 </main>
-<PopupWithForm title="Новый Аватар" name="popup-avatar" isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} buttonText="Загрузить">
-          <input type="url" placeholder="Ссылка на картинку" id= "avatarsrc" className="popup__input" name="avatar" required />
-          <span className="popup__input-error avatarsrc-error" ></span>
-          
-</PopupWithForm>
+
+<EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar}/>
 
 <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
