@@ -3,8 +3,12 @@ import Main from './Main.js';
 import Header from './Header.js';
 import Footer from './Footer.js';
 import PopupWithForm from './PopupWithForm.js';
+import EditProfilePopup from './EditProfilePopup.js';
 import ImagePopup from './ImagePopup.js';
 import '../index.css';
+import {api} from '../utils/Api.js';
+import { CurrentUserContext, currentUser } from '../contexts/CurrentUserContext.js';
+import { CardContext, currentСards } from '../contexts/CardContext.js';
 
 
 
@@ -15,7 +19,24 @@ const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
 const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
 const [isDelPlacePopupOpen, setDelPlacePopupOpen] = React.useState(false);
 const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
+const [currentUser, setСurrentUser] = React.useState({
+  name: "Имя",
+  about: "О Себе",
+  avatar: " ",
+  _id: "1111"
+});
 
+React.useEffect(() => {
+  api.getProfileData()
+  .then((usersData) => {
+    //Подставляем данные о пользователе.
+    setСurrentUser(usersData);
+    })
+    .catch((err) => {
+      //Вывод ошибки
+      console.log(`Ошибка: ${err}`); 
+      });  
+}, [] );
 
 function handleEditAvatarClick() {
   setEditAvatarPopupOpen(true);
@@ -40,9 +61,18 @@ function handleDelPlaceClick() {
     setSelectedCard(props)
      }
 
+     function handleUpdateUser(currentUser) {
+      api.updateUserInfo(currentUser)
+      setСurrentUser(currentUser)
+      closeAllPopups()
+     }
+
+
 
   return (
 <>
+<CurrentUserContext.Provider value={ currentUser }>
+<CardContext.Provider value={ currentСards }>
 <main className="content">
 <Header />
 <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onDelPlace={handleDelPlaceClick}  onCardClick={handleCardClick} />
@@ -54,12 +84,7 @@ function handleDelPlaceClick() {
           
 </PopupWithForm>
 
-<PopupWithForm title="Редактировать Профиль" name="popup-edit" isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} buttonText="Сохранить">
-          <input type="text" placeholder="Имя" id= "name" className="popup__input" name="name" required />
-          <span className="popup__input-error name-error" ></span>
-          <input type="text" placeholder="О себе" id= "about" className="popup__input" name="about" required />
-          <span className="popup__input-error about-error" ></span>
-</PopupWithForm>
+<EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
 <PopupWithForm title="Новое Место" name="popup-add" isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} buttonText="Создать">
           <input type="text" placeholder="Название" id= "mestoname" className="popup__input" name="name" required />
@@ -71,8 +96,8 @@ function handleDelPlaceClick() {
 <PopupWithForm title="Вы уверены?" name="popup-del" isOpen={isDelPlacePopupOpen} onClose={closeAllPopups} buttonText="Да" />    
 
 <ImagePopup card={selectedCard} onClose={closeAllPopups} />
- 
-   
+</CardContext.Provider>
+</CurrentUserContext.Provider>   
 
  </>
   );

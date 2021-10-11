@@ -1,3 +1,17 @@
 .element__like_active {
+    width: 22px;
+    height: 19px;
     background-image: url(../../../images/liked.svg);
+    background-size: cover;
+    line-height: 22px;
+    transition: opacity .2s ease-out;
+    margin: 5px 20px 0 0;
+    border: 0;
+    padding: 0;
+    background-color: white;
 }
+
+.element__like_active:hover {
+    opacity: 0.5;
+    cursor: pointer;
+    }
