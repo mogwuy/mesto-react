@@ -1,46 +1,11 @@
 import React from 'react';
-import {api} from '../utils/Api.js';
-import Card from './Card.js';
 import addButton from '../images/add_button.svg';
 import profileEdit from '../images/profile_edit.svg';
-import { CurrentUserContext, currentUser } from '../contexts/CurrentUserContext.js';
-import { CardContext, currentCards } from '../contexts/CardContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 
 function Main(props) {
 const currentUser = React.useContext(CurrentUserContext);
-const [currentCards, setCards] = React.useState([]);
 
-React.useEffect(() => {
-  api.getInitialCards('cards')
-  .then((cardsData) => {
-    setCards(cardsData)
-   })
-   .catch((err) => {
-           //Вывод ошибки
-     console.log(`Ошибка: ${err}`); 
-     });
-}, [] );
-
-function handleCardLike(card) {
-  // Снова проверяем, есть ли уже лайк на этой карточке
-  const isLiked = card.likes.some(i => i._id === currentUser._id);
-  
-  // Отправляем запрос в API и получаем обновлённые данные карточки
-  api.getPutLike(card._id, !isLiked).then((newCard) => {
-      setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
-  });
-} 
-
-function handleCardDelete(card) {
-  api.deleteСard(card._id)
-  setCards((state) => state.filter((c) => c._id !== card._id));
-} 
-
-//currentCards.reverse();
-
-const cardElements = currentCards.map((card) => {
-  return (<Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelPlace={props.onDelPlace} onCardClick={props.onCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />)
-});
 
 
 
@@ -65,15 +30,10 @@ const cardElements = currentCards.map((card) => {
                 </button>
             </section>
             <section className="elements">
-            {cardElements}
+            {props.cards}
             </section>
         </>
-   
- 
-   
     );
-
-
   }
 
 

@@ -1,11 +1,11 @@
 import React from 'react';
-import { CurrentUserContext, currentUser } from '../contexts/CurrentUserContext.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import PopupWithForm from './PopupWithForm.js';
 
 function EditAvatarPopup(props) {
 
         const currentUser = React.useContext(CurrentUserContext);
-        const avatarRef = React.useRef(); // записываем объект, возвращаемый хуком, в переменную
+        const avatarRef = React.useRef();
 
         function handleSubmit(e) {
             e.preventDefault();
