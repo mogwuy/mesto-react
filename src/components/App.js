@@ -63,16 +63,26 @@ function handleDelPlaceClick() {
       setSelectedCard(props);
      }
 
-     function handleUpdateUser(currentUser) {
-      api.updateUserInfo(currentUser);
-      setСurrentUser(currentUser);
+     function handleUpdateUser(data) {
+      api.updateUserInfo(data)
+      .then((userData) => {
+      setСurrentUser(userData);
       closeAllPopups();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`); 
+    });
      }
 
      function handleUpdateAvatar(data) {
-      api.updateAvatar(data);
-      setСurrentUser(data);
+      api.updateAvatar(data)
+      .then((avatarData) => {
+      setСurrentUser(avatarData);
       closeAllPopups();
+    })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`); 
+      });
      }
 
 
@@ -88,7 +98,17 @@ function handleDelPlaceClick() {
          });
     }, [] );
 
- 
+    React.useEffect(() => {
+      const closeByEscape = (e) => {
+        if (e.key === 'Escape') {
+          closeAllPopups();
+        }
+      }
+
+      document.addEventListener('keydown', closeByEscape)
+      
+      return () => document.removeEventListener('keydown', closeByEscape)
+  }, [])
 
      function handleAddPlaceSubmit(card) {
       api.updateСardInfo(card)
@@ -104,7 +124,8 @@ function handleDelPlaceClick() {
      
      function handleCardLike(card) {
        const isLiked = card.likes.some(i => i._id === currentUser._id);
-       api.getPutLike(card._id, !isLiked).then((newCard) => {
+       api.getPutLike(card._id, !isLiked)
+       .then((newCard) => {
            setCards((state) => state.map((c) => c._id === card._id ? newCard : c))
        })
        .catch((err) => {
@@ -113,12 +134,13 @@ function handleDelPlaceClick() {
      } 
      
      function handleCardDelete(card) {
-       api.deleteСard(card._id).then(() => {
+       api.deleteСard(card._id)
+       .then(() => {
+        setCards((state) => state.filter((c) => c._id !== card._id))
       })
        .catch((err) => {
         console.log(`Ошибка: ${err}`); 
       });
-      setCards((state) => state.filter((c) => c._id !== card._id))
      } 
      
      

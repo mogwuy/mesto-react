@@ -21,14 +21,13 @@ const currentUser = React.useContext(CurrentUserContext);
 React.useEffect(() => {
   setName(currentUser.name);
   setDescription(currentUser.about);
-}, [currentUser]);   
+}, [currentUser, props.isOpen]);   
 
 function handleSubmit(e) {
     e.preventDefault();
     props.onUpdateUser({
       name,
       about: description,
-      avatar: currentUser.avatar
     });
   } 
 

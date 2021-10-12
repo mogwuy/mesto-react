@@ -11,8 +11,6 @@ function EditAvatarPopup(props) {
             e.preventDefault();
             props.onUpdateAvatar({
               avatar: avatarRef.current.value,
-              name: currentUser.name,
-              about: currentUser.about,
             });
           } 
   
