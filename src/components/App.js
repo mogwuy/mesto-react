@@ -126,10 +126,6 @@ function handleDelPlaceClick() {
        return (<Card key={card._id} card={card} link={card.link} name={card.name} likes={card.likes} onDelPlace={handleDelPlaceClick} onCardClick={handleCardClick} onCardLike={handleCardLike} onCardDelete={handleCardDelete} />)
      });
 
-
-    console.log(currentCards)
-
-
   return (
 <>
 <CurrentUserContext.Provider value={ currentUser }>
