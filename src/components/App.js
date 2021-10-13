@@ -104,9 +104,7 @@ function handleDelPlaceClick() {
           closeAllPopups();
         }
       }
-
       document.addEventListener('keydown', closeByEscape)
-      
       return () => document.removeEventListener('keydown', closeByEscape)
   }, [])
 
@@ -114,11 +112,11 @@ function handleDelPlaceClick() {
       api.updateСardInfo(card)
       .then((newCard) => {
         setCards([newCard, ...currentCards]);
+        closeAllPopups()
        })
        .catch((err) => {
         console.log(`Ошибка: ${err}`); 
      });
-      closeAllPopups()
      }
 
      
